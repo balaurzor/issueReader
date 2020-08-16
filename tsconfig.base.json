@@ -1,20 +1,47 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
+    "compileOnSave": false,
+    "compilerOptions": {
+        "importHelpers": true,
+        "baseUrl": "./src",
+        "typeRoots": [
+            "node_modules/@types",
+            "src/@types"
+        ],
+		"skipLibCheck": true,
+        "outDir": "./dist",
+        "target": "es2015",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "noImplicitAny": false,
+        // "noImplicitReturns": true,
+        // "strict": true,
+        "strictPropertyInitialization": false,
+        "noStrictGenericChecks": true,
+        "suppressImplicitAnyIndexErrors": false,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "declaration": false,
+        "paths": {}
+    },
+    "angularCompilerOptions": {
+        "enableIvy": true,
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true
+    },
+    "exclude": [
+        "./node_modules"
+    ],
+    "include": [
+        "src/**/*",
     ]
-  }
 }

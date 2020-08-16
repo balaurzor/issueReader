@@ -1,0 +1,21 @@
+.login-form {
+    margin-top: 5rem;
+    display: block;
+
+    &__button {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__error {
+        padding: 16px;
+        width: 300px;
+        color: white;
+        background-color: red;
+    }
+
+
+    &__input {
+        width: 100%;
+    }
+}

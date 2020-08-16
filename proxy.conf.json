@@ -1,0 +1,18 @@
+{
+    "/git/login": {
+        "target": "https://github.com",
+        "debug": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/git": ""
+        }
+    },
+    "/git": {
+        "target": "https://api.github.com",
+        "debug": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/git": ""
+        }
+    }
+}
