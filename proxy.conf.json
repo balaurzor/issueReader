@@ -1,5 +1,5 @@
 {
-    "/git/login": {
+    "/login/oauth/access_token": {
         "target": "https://github.com",
         "debug": true,
         "changeOrigin": true,

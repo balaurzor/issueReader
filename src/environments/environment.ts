@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  redirect_uri: 'http://localhost:4200',
+  git_api_url: '/git'
 };
 
 /*
