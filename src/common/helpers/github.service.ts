@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { Issue, IIssue } from 'common/models/issue.model';
 import { GIT_CONTENT_HEADER, GIT_CREDENTIALS } from 'common/interceptors/auth.interceptor';
+import { User, IUser } from 'common/models/user.model';
 
 export enum GIT_ISSUE_FILTER {
     ASSIGNED = 'assigned',
@@ -49,23 +50,23 @@ export class GithubService {
         return of(undefined);
     }
 
-    authorize(code: string): Observable<void> {
-        return this.http.post<any>(`/login/oauth/access_token`, {
+    authorize(code: string): Observable<{ access_token: string }> {
+        return this.http.post<{ access_token: string}>(`/login/oauth/access_token`, {
             client_id: clientId,
             client_secret: clientSecret,
             code,
             redirect_uri: `${environment.redirect_uri}/authorize`
         }).pipe(
             tap(({ access_token }) => {
-                localStorage.setItem('access_token', access_token);
+                this.window.localStorage.setItem('access_token', access_token);
 
                 this.router.navigate(['/user', 'issues']);
             })
         );
     }
 
-    getIssues(filter: GIT_ISSUE_FILTER = GIT_ISSUE_FILTER.ALL): Observable<any> {
-        return this.http.get<any>(`${environment.git_api_url}/user/issues`, {
+    getIssues(filter: GIT_ISSUE_FILTER = GIT_ISSUE_FILTER.ALL): Observable<Issue[]> {
+        return this.http.get<IIssue[]>(`${environment.git_api_url}/user/issues`, {
             headers: this.GIT_HEADER,
             params: {
                 filter,
@@ -86,12 +87,12 @@ export class GithubService {
         );
     }
 
-    getProfile(): Observable<any> {
+    getProfile(): Observable<User> {
         return this.http.get(`${environment.git_api_url}/user`, {
             headers: this.GIT_HEADER
         }).pipe(
-            map((res) => {
-                return res;
+            map((user: IUser) => {
+                return new User(user);
             })
         );
     }

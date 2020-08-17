@@ -33,7 +33,7 @@ export class IssueComponent implements OnDestroy {
             this.issueChange.emit(issue);
             this.snackBar.open(`Issues has been ${state}`, undefined, {
                 duration: 2000,
-              });
+            });
         });
     }
 

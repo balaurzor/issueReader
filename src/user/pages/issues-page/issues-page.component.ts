@@ -3,6 +3,7 @@ import { GithubService } from 'common/helpers/github.service';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Issue } from 'common/models/issue.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-issues-page',
@@ -10,13 +11,14 @@ import { Issue } from 'common/models/issue.model';
 })
 
 export class IssuesPageComponent implements OnInit {
-    isLoading: boolean;
+    isLoading = true;
     issues: Issue[];
 
     private destroyed = new Subject<void>();
 
     constructor(
-        private githubService: GithubService
+        private githubService: GithubService,
+        private snackBar: MatSnackBar
     ) { }
 
     ngOnInit(): void {
@@ -27,6 +29,10 @@ export class IssuesPageComponent implements OnInit {
             })
         ).subscribe((issues) => {
             this.issues = issues;
+        }, () => {
+            this.snackBar.open(`Failed to load issues, try to login again`, undefined, {
+                duration: 2000,
+            });
         });
     }
 
