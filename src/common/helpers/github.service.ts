@@ -6,6 +6,7 @@ import { clientId, clientSecret } from 'environments/github';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { Issue, IIssue } from 'common/models/issue.model';
+import { GIT_CONTENT_HEADER, GIT_CREDENTIALS } from 'common/interceptors/auth.interceptor';
 
 export enum GIT_ISSUE_FILTER {
     ASSIGNED = 'assigned',
@@ -24,7 +25,8 @@ export enum ISSUE_STATE {
 @Injectable()
 export class GithubService {
     private GIT_HEADER = new HttpHeaders({
-        accept_git_content: 'true'
+        [GIT_CONTENT_HEADER]: 'true',
+        [GIT_CREDENTIALS]: 'true'
     });
 
     constructor(
@@ -65,7 +67,6 @@ export class GithubService {
     getIssues(filter: GIT_ISSUE_FILTER = GIT_ISSUE_FILTER.ALL): Observable<any> {
         return this.http.get<any>(`${environment.git_api_url}/user/issues`, {
             headers: this.GIT_HEADER,
-            withCredentials: true,
             params: {
                 filter,
                 state: ISSUE_STATE.ALL
@@ -79,7 +80,6 @@ export class GithubService {
         return this.http.patch(`${environment.git_api_url}/repos/balaurzor/issueReader/issues/${issueNumber}`, {
             state
         }, {
-            withCredentials: true,
             headers: this.GIT_HEADER
         }).pipe(
             map((issue: IIssue) => new Issue(issue))
@@ -88,7 +88,6 @@ export class GithubService {
 
     getProfile(): Observable<any> {
         return this.http.get(`${environment.git_api_url}/user`, {
-            withCredentials: true,
             headers: this.GIT_HEADER
         }).pipe(
             map((res) => {

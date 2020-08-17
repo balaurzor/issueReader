@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export const GIT_CONTENT_HEADER = 'accept_git_content';
+export const GIT_CREDENTIALS = 'git_credentials';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -15,9 +16,9 @@ export class AuthInterceptor implements HttpInterceptor {
                 req.headers.set('Accept', `application/json`)
         });
 
-        if (request.withCredentials) {
+        if (req.headers.has(GIT_CREDENTIALS)) {
             request = request.clone({
-                headers: request.headers.set('Authorization', `token ${localStorage.getItem('access_token')}`)
+                headers: request.headers.set('Authorization', `token ${localStorage.getItem('access_token')}`).delete(GIT_CREDENTIALS)
             });
         }
 
