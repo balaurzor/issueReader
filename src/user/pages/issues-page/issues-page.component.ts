@@ -11,7 +11,7 @@ import { Issue } from 'common/models/issue.model';
 
 export class IssuesPageComponent implements OnInit {
     isLoading: boolean;
-    issues: Issue;
+    issues: Issue[];
 
     private destroyed = new Subject<void>();
 
