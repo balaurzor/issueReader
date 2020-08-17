@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GithubService } from 'public/helpers/github.service';
 import { ActivatedRoute } from '@angular/router';
+import { GithubService } from 'common/helpers/github.service';
 
 @Component({
     selector: 'app-authorize-page',

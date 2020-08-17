@@ -1,0 +1,9 @@
+<mat-card>
+    <mat-card-title>{{ issue.title }}</mat-card-title>
+    <mat-card-actions>
+        <button mat-stroked-button [disabled]="isLoading" (click)="toggleIssue(ISSUE_STATE.CLOSED)" *ngIf="!issue.closedAt; else openIssue">CLOSE ISSUE</button>
+        <ng-template #openIssue>
+            <button mat-stroked-button [disabled]="isLoading" (click)="toggleIssue(ISSUE_STATE.OPEN)">REOPEN ISSUE</button>
+        </ng-template>
+    </mat-card-actions>
+</mat-card>

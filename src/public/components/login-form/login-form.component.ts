@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { GithubService } from 'public/helpers/github.service';
+import { GithubService } from 'common/helpers/github.service';
 
 @Component({
     selector: 'app-login-form',

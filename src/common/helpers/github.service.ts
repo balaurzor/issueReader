@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { clientId, clientSecret } from 'environments/github';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
+import { Issue, IIssue } from 'common/models/issue.model';
 
 export enum GIT_ISSUE_FILTER {
     ASSIGNED = 'assigned',
@@ -14,17 +15,23 @@ export enum GIT_ISSUE_FILTER {
     ALL = 'all'
 }
 
+export enum ISSUE_STATE {
+    ALL = 'all',
+    OPEN = 'open',
+    CLOSED = 'closed'
+}
+
 @Injectable()
 export class GithubService {
-    private accessToken: string;
+    private GIT_HEADER = new HttpHeaders({
+        accept_git_content: 'true'
+    });
 
     constructor(
         private http: HttpClient,
         private router: Router,
         @Inject('window') private window: Window
-    ) {
-        this.accessToken = localStorage.getItem('access_token');
-    }
+    ) {}
 
     login(username: string): Observable<void> {
         const params = {
@@ -46,34 +53,43 @@ export class GithubService {
             client_secret: clientSecret,
             code,
             redirect_uri: `${environment.redirect_uri}/authorize`
-        }, {
-            headers: new HttpHeaders({
-                Accept: 'application/json'
-            })
         }).pipe(
             tap(({ access_token }) => {
-                this.accessToken = access_token;
                 localStorage.setItem('access_token', access_token);
 
-                this.router.navigate(['/issues']);
+                this.router.navigate(['/user', 'issues']);
             })
         );
     }
 
     getIssues(filter: GIT_ISSUE_FILTER = GIT_ISSUE_FILTER.ALL): Observable<any> {
         return this.http.get<any>(`${environment.git_api_url}/user/issues`, {
-            headers: new HttpHeaders({Authorization: `token ${this.accessToken}`, Accept: 'application/vnd.github.v3+json' }),
+            headers: this.GIT_HEADER,
+            withCredentials: true,
             params: {
-                filter
+                filter,
+                state: ISSUE_STATE.ALL
             }
-        });
+        }).pipe(
+            map((issues) => issues.map(issue => new Issue(issue)))
+        );
+    }
+
+    toggleIssueState(state: ISSUE_STATE, issueNumber: string): Observable<Issue> {
+        return this.http.patch(`${environment.git_api_url}/repos/balaurzor/issueReader/issues/${issueNumber}`, {
+            state
+        }, {
+            withCredentials: true,
+            headers: this.GIT_HEADER
+        }).pipe(
+            map((issue: IIssue) => new Issue(issue))
+        );
     }
 
     getProfile(): Observable<any> {
-        const headers = new HttpHeaders({Authorization: `token ${this.accessToken}` }); // ... Set content type to JSON
-
         return this.http.get(`${environment.git_api_url}/user`, {
-            headers
+            withCredentials: true,
+            headers: this.GIT_HEADER
         }).pipe(
             map((res) => {
                 return res;

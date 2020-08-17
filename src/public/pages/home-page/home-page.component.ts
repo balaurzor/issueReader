@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GithubService } from 'public/helpers/github.service';
+import { GithubService } from 'common/helpers/github.service';
 
 @Component({
     selector: 'app-home-page',

@@ -1,0 +1,9 @@
+<ng-container *ngIf="!isLoading">
+    <div *ngFor="let issue of issues; let i = index" class="__margin-top">
+        <app-issue [issue]="issue" (issueChange)="updateIssue($event, i)"></app-issue>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</ng-container>
