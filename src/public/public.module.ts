@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizePageComponent } from './pages/authorize-page/authorize-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 const matModules = [
     MatCardModule,
@@ -17,6 +18,7 @@ const matModules = [
 
 @NgModule({
     imports: [
+        CommonModule,
         ReactiveFormsModule,
         ...matModules
     ],

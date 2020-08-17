@@ -13,13 +13,11 @@ const routes: Routes = [{
 },
 {
     path: 'home',
-    component: HomePageComponent,
-    canActivate: [RootRedirectGuard]
+    component: HomePageComponent
 },
 {
     path: 'authorize',
-    component: AuthorizePageComponent,
-    canActivate: [AuthGuard]
+    component: AuthorizePageComponent
 },
 {
     path: 'user',
